@@ -1,0 +1,113 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de envio e correção de provas",
+    "description":"API de envio e correção de provas entre alunos e professores",
+    "contact":{
+      "email":"claudio.bahia@ibm.com"
+    },
+    "version":"1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API de testes"
+    }
+  ],
+  "paths": {
+    "/aluno/atividade": {
+      "post":{
+        "summary": "Enviar atividade",
+        "description": "Essa rota requer um body com os dados da tarefa a ser enviada",
+        "tags": ["Tarefa"],
+        "requestBody": {
+          "content":{
+            "application/json":{
+              "schema": {
+                "$ref": "#/components/schemas/TarefaEnviada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Enviado com sucesso",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "$ref": "#/components/schemas/TarefaEnviada"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retornar atividades já encaminhadas e corrigidas",
+        "description": "Essa rota retorna um body com os dados das tarefas corrigidas enviadas",
+        "tags": ["Tarefa"],
+        "responses": {
+          "200": {
+            "description": "Todas as tarefas corrigidas enviadas",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"object",
+                  "$ref": "#/components/schemas/Tarefa"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TarefaEnviada": {
+        "type": "object",
+        "properties": {
+            "id_atividade":{
+                "type": "number",
+                "require": true,
+                "unique": true
+            },
+            "id_aluno":{
+                "type": "number",
+                "require": true
+            },
+            "disciplina":{
+                "type": "string",
+                "require": true
+            }
+        }
+      },
+      "Tarefa": {
+        "type": "object",
+        "properties": {
+            "id_atividade":{
+                "type": "number",
+                "unique": true
+            },
+            "id_aluno":{
+                "type": "number"
+            },
+            "disciplina":{
+                "type": "string"
+            },
+            "nota":{
+              "type": "number"
+            },
+            "_id": {
+              "type":"number",
+              "unique":true
+            },
+            "data_enviado": {
+              "type": "date"
+            }
+        }
+      }
+    }
+  }
+}
